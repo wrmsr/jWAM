@@ -12,12 +12,11 @@ package com.wrmsr.jwam;
 import java.util.Vector;
 
 public class QueryCompiler extends Compiler {
-
     public QueryCompiler(Wam anOwner) {
         owner = anOwner;
         errorString = "";
         varPrefix = "Q";
-    } // end of end of QueryCompiler.QueryCompiler(WAM)
+    } 
 
     private boolean query(Vector prog, CompilerStructure struc) {
         Vector oldProg = (Vector) prog.clone();
@@ -36,7 +35,7 @@ public class QueryCompiler extends Compiler {
         prog.clear();
         prog.addAll(oldProg);
         return false;
-    } // end of QueryCompiler.query(Vector, CompilerStructure)
+    } 
 
     public Program compile(String aQuery) {
         Vector queryList = stringToList(aQuery);
@@ -45,17 +44,19 @@ public class QueryCompiler extends Compiler {
         owner.debug("List:      " + queryList, 2);
         if (query(queryList, struc)) {
             if (queryList.size() > 0) {
-                if (errorString.length() > 0)
+                if (errorString.length() > 0) {
                     owner.writeLn(errorString);
+                }
                 return null;
             }
             owner.debug("Structure: " + struc, 2);
             substitutionList = new Vector();
             return structureToCode(struc);
         }
-        if (errorString.length() > 0)
+        if (errorString.length() > 0) {
             owner.writeLn(errorString);
+        }
         return null;
-    } // end of QueryCompiler.compile(String)
+    } 
 
-} // end of class QueryCompiler
+} 

@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class CodeReader {
-
     public CodeReader() {
     }
 
@@ -60,6 +59,5 @@ public class CodeReader {
         } catch (IOException io) {
             return null;
         }
-    } // end of CodeReader.readProgram()
-
-} // end of class CodeReader
+    }
+}

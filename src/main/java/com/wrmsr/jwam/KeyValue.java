@@ -11,14 +11,14 @@ public class KeyValue {
         key = k;
         stringValue = v;
         intValue = -12345;
-    } // end of KeyValue.KeyValue(String, String)
+    } 
 
     // create a new pair with key k and int value v
     public KeyValue(String k, int v) {
         key = k;
         intValue = v;
         stringValue = "";
-    } // end of KeyValue.KeyValue(String, int)
+    } 
 
     // in order to display the mapping on the screen (for debug purposes only)
     public String toString() {
@@ -26,6 +26,6 @@ public class KeyValue {
             return "[" + key + "=" + intValue + "]";
         else
             return "[" + key + "=" + stringValue + "]";
-    } // end of KeyValue.toString()
+    } 
 
 }

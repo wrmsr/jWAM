@@ -75,7 +75,7 @@ public class Statement {
         args.addElement("");
         args.addElement("");
         doCommonStuff();
-    } // end of Statement.Statement(String, String, String)
+    }
 
     // creates a new statement with one operand/argument
     public Statement(String aLabel, String aFunction, String arg1, String arg2) {
@@ -86,7 +86,7 @@ public class Statement {
         args.addElement(arg2);
         args.addElement("");
         doCommonStuff();
-    } // end of Statement.Statement(String, String, String, String)
+    }
 
     // creates a new statement with more than two ops
     public Statement(String aLabel, String aFunction, String arg1, String arg2, String arg3) {
@@ -101,12 +101,14 @@ public class Statement {
             args.addElement(arg3.substring(0, i));
             arg3 = arg3.substring(i + 1);
         }
-        if (arg3.length() > 0)
+        if (arg3.length() > 0) {
             args.addElement(arg3);
-        if (args.size() < 2)
+        }
+        if (args.size() < 2) {
             args.addElement("");
+        }
         doCommonStuff();
-    } // end of Statement.Statement(String, String, String, String, String)
+    }
 
     private void doCommonStuff() {
         jump = -1;
@@ -114,7 +116,7 @@ public class Statement {
         arg1 = (String) args.elementAt(0);
         arg2 = (String) args.elementAt(1);
         arg3 = (String) args.elementAt(2);
-    } // end of Statement.doCommonStuff()
+    }
 
     public int functionToInt(String function) {
         if (function.compareTo("allocate") == 0) return opAllocate;
@@ -146,72 +148,78 @@ public class Statement {
         if (function.compareTo("smallereq") == 0) return opSmallerEq;
         if ((function.compareTo("nop") == 0) || (function.compareTo("noop") == 0)) return opNoOp;
         return -1;
-    } // end of Statement.functionToInt()
+    }
 
     // returns the label name of the statement
     public String getLabel() {
         return label;
-    } // end of Statement.getLabel()
+    }
 
     // sets the label name to newLabel
     public void setLabel(String newLabel) {
         label = newLabel;
-    } // end of Statement.setLabel(String)
+    }
 
     // returns the operator string, e.g. "get_variable"
     public String getFunction() {
         return function;
-    } // end of Statement.getFunction()
+    }
 
     public void setFunction(String newFunction) {
         function = newFunction;
         operator = functionToInt(function);
-    } // end of Statement.setFunction
+    }
 
     // returns the operand strings vector
     public Vector getArgs() {
         return args;
-    } // end of Statement.getArgs()
+    }
 
     // for code dumping: print the statement: "label: operator op1 op2"
     public String toString() {
-        if (label.compareTo(";") == 0)
+        if (label.compareTo(";") == 0) {
             return "; " + function;
+        }
         String result;
         if (label.length() > 0) {
             result = label + ": ";
-            for (int i = 1; i <= 12 - label.length(); i++)
+            for (int i = 1; i <= 12 - label.length(); i++) {
                 result += " ";
-        } else
+            }
+        } else {
             result = "              ";
+        }
         result += function;
         for (int i = 0; i < args.size(); i++) {
             String a = (String) args.elementAt(i);
-            if (a.indexOf(' ') < 0)
+            if (a.indexOf(' ') < 0) {
                 result += " " + a;
-            else
+            } else {
                 result += " '" + a + "'";
+            }
         }
-        if (jump >= 0)
+        if (jump >= 0) {
             result += " (" + jump + ")";
+        }
         return result;
-    } // end of Statement.toString()
+    }
 
     public String toString2() {
         String result = function;
-        for (int i = 0; i < args.size(); i++)
+        for (int i = 0; i < args.size(); i++) {
             result += " " + args.elementAt(i);
+        }
         return result.trim();
-    } // end of Statement.toString2()
+    }
 
     // where do you have to go today?
     public void setJump(int anAddress) {
         jump = anAddress;
-    } // end of Statement.setJump(int)
+    }
 
     // where do you want to go today?
     public int getJump() {
         return jump;
-    } // end of Statement.getJump()
+    }
 
-} // end of class Statement
+} 

@@ -48,13 +48,13 @@ public class CompilerStructure {
         head = null;
         tail = null;
         value = "";
-    } // end of CompilerStructure.CompilerStructure()
+    } 
 
     // create a new, trivial structure of type aType with initial value aValue
     public CompilerStructure(int aType, String aValue) {
         type = aType;
         value = aValue;
-    } // end of CompilerStructure.CompilerStructure(int, String)
+    } 
 
     // return the string that shall be used to display this node on the screen
     public String toString() {
@@ -119,6 +119,6 @@ public class CompilerStructure {
                 return head.toString() + "(" + tail.toString() + ")";
         } else
             return "[unknown type]";
-    } // end of CompilerStructure.toString()
+    } 
 
-} // end of class CompilerStructure
+} 

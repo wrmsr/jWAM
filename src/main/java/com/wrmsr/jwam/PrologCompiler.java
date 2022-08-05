@@ -15,7 +15,6 @@ import java.io.InputStreamReader;
 import java.util.Vector;
 
 public class PrologCompiler extends Compiler {
-
     public PrologCompiler(Wam anOwner) {
         owner = anOwner;
         errorString = "";
@@ -42,11 +41,12 @@ public class PrologCompiler extends Compiler {
             owner.debug("Structure to Code: " + (System.currentTimeMillis() - ms) + " ms.", -1);
             return p;
         } else {
-            if (errorString.length() > 0)
+            if (errorString.length() > 0) {
                 owner.writeLn(errorString);
+            }
             return null;
         }
-    } // end of PrologCompiler.compile(String)
+    }
 
     // compileSimpleClause can be used in order to implement assert(...) operations
     public Program compileSimpleClause(String programCode) {
@@ -60,7 +60,7 @@ public class PrologCompiler extends Compiler {
             return structureToCode(program);
         } else
             return null;
-    } // end of PrologCompiler.compileSimpleClause(String)
+    }
 
     public Program compileFile(String fileName) {
         String code = "";
@@ -88,24 +88,27 @@ public class PrologCompiler extends Compiler {
             owner.writeLn("File \"" + fileName + "\" could not be opened.");
             return null;
         }
-    } // end of PrologCompiler.compileFile(String)
+    }
 
     private int getProcedureCount(String name, Vector list) {
-        for (int i = 0; i < list.size(); i++)
-            if (((KeyValue) list.elementAt(i)).key.compareTo(name) == 0)
+        for (int i = 0; i < list.size(); i++) {
+            if (((KeyValue) list.elementAt(i)).key.compareTo(name) == 0) {
                 return ((KeyValue) list.elementAt(i)).intValue;
+            }
+        }
         return 0;
-    } // end of PrologCompiler.getProcedureCount(String, Vector)
+    }
 
     private void setProcedureCount(String name, int count, Vector list) {
-        for (int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++) {
             if (((KeyValue) list.elementAt(i)).key.compareTo(name) == 0) {
                 ((KeyValue) list.elementAt(i)).intValue = count;
                 return;
             }
+        }
         list.addElement(new KeyValue(name, count));
         return;
-    } // end of PrologCompiler.setProcedureCount(String, int, Vector)
+    }
 
     private void updateNames(CompilerStructure struc) {
         Vector procedureCount = new Vector();
@@ -125,13 +128,13 @@ public class PrologCompiler extends Compiler {
             do {
                 proc = s.head.head.head;
                 String pv = proc.value;
-                if (pv.indexOf('~') > 0)
+                if (pv.indexOf('~') > 0) {
                     pv = pv.substring(0, pv.indexOf('~'));
+                }
                 proc.value += "/" + getProcedureCount(pv, procedureCount);
                 s = s.tail;
             } while (s != null);
         }
-    } // end of PrologCompiler.updateNames(CompilerStructure)
-
-} // end of class PrologCompiler
+    }
+}
 

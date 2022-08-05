@@ -1,4 +1,7 @@
-package com.wrmsr.jwam;
+package com.wrmsr.jwam.ide;
+
+import com.wrmsr.jwam.Program;
+import com.wrmsr.jwam.Wam;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -13,9 +16,6 @@ public class Frame1 extends Frame {
     Panel panel1 = new Panel();
     Wam wam;         // the Abstract Machine residing inside the interface
 
-    /**
-     * Construct the frame
-     */
     public Frame1() {
         enableEvents(AWTEvent.WINDOW_EVENT_MASK);
         try {
@@ -25,15 +25,11 @@ public class Frame1 extends Frame {
         }
     }
 
-    /**
-     * Component initialization
-     */
-    private void jbInit() throws Exception {
+    private void jbInit() {
         wam = new Wam(new Program());
         wam.GUImode = 1;
         wam.response = textArea1;
         wam.frame = this;
-        /*****/
         textArea1.setFont(new java.awt.Font("Monospaced", 0, 12));
         textArea1.setText("Welcome to our WAM Interface!\n\nPlease type in your query below.\n" +
                 "Compiled WAM code can be loaded into the WAM by typing \"load filename.wam\".\n\n");
@@ -68,9 +64,6 @@ public class Frame1 extends Frame {
         panel1.add(label2, null);
     }
 
-    /**
-     * Overridden so we can exit when window is closed
-     */
     protected void processWindowEvent(WindowEvent e) {
         super.processWindowEvent(e);
         if (e.getID() == WindowEvent.WINDOW_CLOSING) {

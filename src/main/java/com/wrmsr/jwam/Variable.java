@@ -13,7 +13,6 @@ public class Variable {
     public final int CON = 1;  // variable has been bound to a constant
     public final int LIS = 2;  // variable contains list
     public final int STR = 3;  // variable contains structure / term
-
     public int tag;            // REF, CON, LIS or STR
     public String value;       // variable's content in case of CON
     public Variable reference; // variable's content in case of REF
@@ -89,36 +88,41 @@ public class Variable {
     public String toString() {
         if (tag == CON) {
             if (value.indexOf(' ') < 0) {
-                if ((value.length() > 2) && (value.indexOf(".0") == value.length() - 2))
+                if ((value.length() > 2) && (value.indexOf(".0") == value.length() - 2)) {
                     return value.substring(0, value.length() - 2);
-                else
+                } else {
                     return value;
-            } else
+                }
+            } else {
                 return ("'" + value + "'");
+            }
         }
-        if (tag == LIS)
+        if (tag == LIS) {
             return "[" + toString2() + "]";
+        }
         if (tag == STR) {
             String result = head.toString() + "(" + tail.toString2() + ")";
             return result;
         }
         if (tag == REF) {
-            if (reference == this)
+            if (reference == this) {
                 return "_"; // "(unbound variable)";
-            else
+            } else {
                 return deref().toString();
+            }
         }
         return "";
-    } // end of Variable.toString()
+    }
 
     public String toString2() {
         if (tag == LIS) {
             String result = head.toString();
-            if ((tail != null) && (tail.tag != tail.CON))
+            if ((tail != null) && (tail.tag != tail.CON)) {
                 result += ", " + tail.toString2();
+            }
             return result;
         }
         return "";
-    } // end of Variable.toString2()
+    }
 
-} // end of class Variable
+} 

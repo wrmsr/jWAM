@@ -24,7 +24,6 @@ public class Wam {
 
     public static final int ASSERT = 9;  // this variable is no real variable but only used for trailing assert operations
 
-
     public static final int opAllocate = 1;   // Statement constants, see there
     public static final int opBigger = 2;
     public static final int opCall = 3;
@@ -134,7 +133,7 @@ public class Wam {
                 return result;
             } else
                 return this;
-        } // end of Variable.deref()
+        }
 
         // returns a string in the form NAME = VALUE, representing the variable's value
         public String toString() {
@@ -159,7 +158,7 @@ public class Wam {
             if (tag == REF)
                 return deref().toString();
             return "";
-        } // end of Variable.toString()
+        }
 
         public String toString2() {
             if (tag == LIS) {
@@ -169,9 +168,9 @@ public class Wam {
                 return result;
             }
             return "";
-        } // end of Variable.toString2()
+        }
 
-    } // end of class Variable
+    }
 
     // class ChoicePoint implements the choice point concept, as presented by Ait-Kaci
     class ChoicePoint {
@@ -193,9 +192,9 @@ public class Wam {
             for (int i = 0; i < a.size(); i++)
                 arguments.addElement(new Variable((Variable) a.elementAt(i)));
             trailPointer = trailPtr;
-        } // end of ChoicePoint.ChoicePoint
+        }
 
-    } // end of class ChoicePoint
+    }
 
     // class Environment for storing local variables that must not be overridden
     class Environment {
@@ -208,9 +207,9 @@ public class Wam {
             lastEnviron = anEnv;
             returnAddress = anAddress;
             variables = new Vector();
-        } // end of Environment.Environment(int, Environment)
+        }
 
-    } // end of class Environment
+    }
 
     // Trail implements the WAM's trail (undo-list for bindings performed)
     class Trail {
@@ -248,7 +247,7 @@ public class Wam {
             }
         }
 
-    } // end of class Trail
+    }
 
     /****************************** END SUBCLASSES ******************************/
 
@@ -283,7 +282,7 @@ public class Wam {
     public Wam(Program aProgram) {
         p = aProgram;
         reset();
-    } // end of WAM.WAM(Program)
+    }
 
     // resets sets all WAM parameters to their initial values
     private void reset() {
@@ -294,10 +293,12 @@ public class Wam {
         trail = new Trail();
         queryVariables = new Vector();
         displayQCount = 0;
-        for (int i = 0; i < 100; i++) displayQValue[i] = false;
+        for (int i = 0; i < 100; i++) {
+            displayQValue[i] = false;
+        }
         choicePoint = null;
         cutPoint = null;
-    } // end of WAM.reset()
+    }
 
     // reads a String line from standard input
     private String readLn() {
@@ -306,76 +307,90 @@ public class Wam {
         } catch (IOException io) {
             return "";
         }
-    } // end of WAM.readLn()
+    }
 
     // displays a string
     public void write(String s) {
-        if (GUImode == 0)
+        if (GUImode == 0) {
             System.out.print(s);
-        else
+        } else {
             response.append(s);
-    } // end of WAM.write(String)
+        }
+    }
 
     // displays a string followed by CRLF
     public void writeLn(String s) {
-        if (GUImode == 0)
+        if (GUImode == 0) {
             System.out.println(s);
-        else
+        } else {
             response.append(s + "\n");
-    } // end of WAM.writeLn(String)
+        }
+    }
 
     // displays a debug information line
     public void debug(String s, int debugLevel) {
         if (debugLevel < 0) {
-            if (benchmarkOn > 0)
+            if (benchmarkOn > 0) {
                 writeLn(s);
-        } else if (debugOn >= debugLevel)
+            }
+        } else if (debugOn >= debugLevel) {
             writeLn(s);
-    } // end of WAM.debug(String, int)
+        }
+    }
 
     // formats an integer to a string
     private String int2FormatStr(int i) {
         String result = "";
-        if (i < 1000) result += "0";
-        if (i < 100) result += "0";
-        if (i < 10) result += "0";
+        if (i < 1000) {
+            result += "0";
+        }
+        if (i < 100) {
+            result += "0";
+        }
+        if (i < 10) {
+            result += "0";
+        }
         result += i;
         return result;
-    } // end of WAM.int2FormatStr(int)
+    }
 
     // displays the values of all internal parameters that can be modyfied using the "set" command
     private void displayInternalVariables() {
         getInternalVariable("autostop");
         getInternalVariable("benchmark");
         getInternalVariable("debug");
-    } // end of WAM.displayInternalVariables()
+    }
 
     // sets the internal parameter specified by variable to a new value
     private void setInternalVariable(String variable, String value) {
         try {
-            if (variable.compareToIgnoreCase("autostop") == 0)
+            if (variable.compareToIgnoreCase("autostop") == 0) {
                 maxOpCount = parseInt(value);
-            if (variable.compareToIgnoreCase("benchmark") == 0)
+            }
+            if (variable.compareToIgnoreCase("benchmark") == 0) {
                 benchmarkOn = parseInt(value);
-            if (variable.compareToIgnoreCase("debug") == 0)
+            }
+            if (variable.compareToIgnoreCase("debug") == 0) {
                 debugOn = parseInt(value);
+            }
             getInternalVariable(variable);
         } catch (Exception e) {
             writeLn("An error occurred. Illegal query.");
         }
-    } // end of WAM.setInternalVariable(String, String)
+    }
 
     // displays the value of the internal parameter specified by variable
     private void getInternalVariable(String variable) {
-        if (variable.compareToIgnoreCase("autostop") == 0)
+        if (variable.compareToIgnoreCase("autostop") == 0) {
             writeLn("Internal variable AUTOSTOP = " + maxOpCount);
-        else if (variable.compareToIgnoreCase("benchmark") == 0)
+        } else if (variable.compareToIgnoreCase("benchmark") == 0) {
             writeLn("Internal variable BENCHMARK = " + benchmarkOn);
-        else if (variable.compareToIgnoreCase("debug") == 0)
+        } else if (variable.compareToIgnoreCase("debug") == 0) {
             writeLn("Internal variable DEBUG = " + debugOn);
-        else
+        } else {
             writeLn("Unknown internal variable.");
-    } // end of WAM.getInternalVariable(String)
+        }
+    }
 
     private int parseInt(String number) throws NumberFormatException {
         int len = number.length();
@@ -384,7 +399,9 @@ public class Wam {
         char c;
         while (++cnt < len) {
             c = number.charAt(cnt);
-            if ((c < '0') || (c > '9')) throw new NumberFormatException();
+            if ((c < '0') || (c > '9')) {
+                throw new NumberFormatException();
+            }
             value = value * 10 + (number.charAt(cnt) - '0');
         }
         return value;
@@ -409,17 +426,19 @@ public class Wam {
         int len = name.length();
         int cnt = 0;
         int index = 0;
-        while (++cnt < len)
+        while (++cnt < len) {
             index = index * 10 + (name.charAt(cnt) - '0');
+        }
         cnt = array.size();
-        while (cnt++ < index + 1)
+        while (cnt++ < index + 1) {
             array.addElement(new Variable());
+        }
         return (Variable) array.elementAt(index);
-    } // end of WAM.get_ref(String)
+    }
 
     /******************** BEGIN WAM CODE OPERATIONS ********************/
 
-// WAM code operations are described in Ait Kaci: Warren's Abstract Machine -- A Tutorial Reconstruction
+    // WAM code operations are described in Ait Kaci: Warren's Abstract Machine -- A Tutorial Reconstruction
 
     // gives a name to a variable; usually used on Qxx variables that occur within the query
     private void create_variable(String v, String name) {
@@ -434,7 +453,7 @@ public class Wam {
             }
         }
         programCounter++;
-    } // end of WAM.create_variable(String, String)
+    }
 
     // comparison manages "<", "<=", ">=", ">" and "!="
     private void comparison(String s1, String s2, int comparator) {
@@ -474,27 +493,27 @@ public class Wam {
             }
         } else
             backtrack();
-    } // end of WAM.comparison(String, String, String)
+    }
 
     private void smaller(String s1, String s2) {
         comparison(s1, s2, 1);
-    } // end of WAM.smaller(String, String)
+    }
 
     private void smallereq(String s1, String s2) {
         comparison(s1, s2, 2);
-    } // end of WAM.smallereq(String, String)
+    }
 
     private void biggereq(String s1, String s2) {
         comparison(s1, s2, 3);
-    } // end of WAM.biggereq(String, String)
+    }
 
     private void bigger(String s1, String s2) {
         comparison(s1, s2, 4);
-    } // end of WAM.bigger(String, String)
+    }
 
     private void unequal(String s1, String s2) {
         comparison(s1, s2, 5);
-    } // end of WAM.unequal(String, String)
+    }
 
     // is manages integer arithmetic (floating point may be added later)
     private void is(String target, char op, String s1, String s2) {
@@ -543,8 +562,8 @@ public class Wam {
             if (op == '/') z3 = z1 / z2;
             if (op == '%') z3 = z1 % z2;
             // if v3 (the target) has already been bound, consider this an equality check
-//      if ((v3.tag == CON) && (parseInt(v3.value) != z3))      // do not allow this for now, since problems might occur
-//        backtrack();
+            // if ((v3.tag == CON) && (parseInt(v3.value) != z3))      // do not allow this for now, since problems might occur
+            // backtrack();
             if (v3.tag == REF) {
                 // if it has not been bound yet, bind it to constant value z3 (the integer number)
                 trail.addEntry(v3);
@@ -558,18 +577,18 @@ public class Wam {
         } catch (Exception e) {
             backtrack();
         }
-    } // end of WAM.is(String, String, String, String)
+    }
 
     private void get_variable(String s1, String s2) {
         Variable Vn = get_ref(s1);
         Variable Ai = get_ref(s2);
         Vn.copyFrom(Ai);
         programCounter++;
-    } // end of WAM.get_variable(String, String)
+    }
 
     private void get_value(String s1, String s2) {
         unify_variable(s2, s1);
-    } // end of WAM.get_value(String, String)
+    }
 
     private void get_constant(String c, String variable) {
         Variable v = get_ref(variable).deref();
@@ -580,20 +599,25 @@ public class Wam {
             v.value = c;
             fail = false;
         } else if (v.tag == CON) {
-            if (c.compareTo(v.value) == 0)
+            if (c.compareTo(v.value) == 0) {
                 fail = false;
+            }
         }
         if (fail)
             backtrack();
         else
             programCounter++;
-    } // end of WAM.get_constant(String, String)
+    }
 
     private boolean unify_variable2(Variable v1, Variable v2) {
-        if ((v1 == null) || (v2 == null)) return false;
+        if ((v1 == null) || (v2 == null)) {
+            return false;
+        }
         v1 = v1.deref();
         v2 = v2.deref();
-        if (v1 == v2) return true;
+        if (v1 == v2) {
+            return true;
+        }
 
         if (v1.tag == REF) {
             trail.addEntry(v1);
@@ -610,16 +634,17 @@ public class Wam {
             return v1.value.compareTo(v2.value) == 0;
         }
 
-        if (((v1.tag == LIS) && (v2.tag == LIS)) || ((v1.tag == STR) && (v2.tag == STR)))
+        if (((v1.tag == LIS) && (v2.tag == LIS)) || ((v1.tag == STR) && (v2.tag == STR))) {
             return (unify_variable2(v1.head, v2.head)) && (unify_variable2(v1.tail, v2.tail));
+        }
 
         return false;
-    } // end of WAM.unify_variable2(Variable, Variable)
+    }
 
     private boolean unify_list2(Variable list, Variable head, Variable tail) {
-//    list = list.deref();
-//    head = head.deref();
-//    tail = tail.deref();
+        // list = list.deref();
+        // head = head.deref();
+        // tail = tail.deref();
         if (list.tag == REF) {
             trail.addEntry(list);
             list.tag = LIS;
@@ -628,16 +653,17 @@ public class Wam {
             return true;
         }
         if (list.tag == LIS) {
-            if (unify_variable2(head, list.head))
+            if (unify_variable2(head, list.head)) {
                 return unify_variable2(tail, list.tail);
+            }
         }
         return false;
-    } // end of WAM.unify_list2(Variable, Variable, Variable)
+    }
 
     private boolean unify_struc2(Variable struc, Variable head, Variable tail) {
-//    struc = struc.deref();
-//    head = head.deref();
-//    tail = tail.deref();
+        // struc = struc.deref();
+        // head = head.deref();
+        // tail = tail.deref();
         if (struc.tag == REF) {
             trail.addEntry(struc);
             struc.tag = STR;
@@ -646,47 +672,51 @@ public class Wam {
             return true;
         }
         if (struc.tag == STR) {
-            if (unify_variable2(head, struc.head))
+            if (unify_variable2(head, struc.head)) {
                 return unify_variable2(tail, struc.tail);
+            }
         }
         return false;
-    } // end of WAM.unify_struc2(Variable, Variable, Variable)
+    }
 
     private void unify_variable(String s1, String s2) {
         Variable v1 = get_ref(s1);
         Variable v2 = get_ref(s2);
-        if (unify_variable2(v1, v2))
+        if (unify_variable2(v1, v2)) {
             programCounter++;
-        else
+        } else {
             backtrack();
-    } // end of WAM.unify_variable(String, String)
+        }
+    }
 
     private void unify_list(String l, String h, String t) {
         Variable list = get_ref(l);
         Variable head = get_ref(h);
         Variable tail = get_ref(t);
-        if (unify_list2(list, head, tail))
+        if (unify_list2(list, head, tail)) {
             programCounter++;
-        else
+        } else {
             backtrack();
-    } // end of WAM.unify_list(String, String, String)
+        }
+    }
 
     private void unify_struc(String s, String h, String t) {
         Variable struc = get_ref(s);
         Variable head = get_ref(h);
         Variable tail = get_ref(t);
-        if (unify_struc2(struc, head, tail))
+        if (unify_struc2(struc, head, tail)) {
             programCounter++;
-        else
+        } else {
             backtrack();
-    } // end of WAM.unify_struc(String, String, String)
+        }
+    }
 
     private void put_constant(String c, String a) {
         Variable Ai = get_ref(a);
         Ai.tag = CON;
         Ai.value = c;
         programCounter++;
-    } // end of WAM.put_constant(String, String)
+    }
 
     private void put_list(String h, String t, String a) {
         Variable Ai = get_ref(a);
@@ -694,14 +724,14 @@ public class Wam {
         Ai.head = get_ref(h).deref();
         Ai.tail = get_ref(t).deref();
         programCounter++;
-    } // end of WAM.put_list(String, String, String);
+    }
 
     private void put_value(String s1, String s2) {
         Variable Vi = get_ref(s1);
         Variable An = get_ref(s2);
         An.copyFrom(Vi);
         programCounter++;
-    } // end of WAM.put_value(String, String)
+    }
 
     private void put_variable(String s1, String s2) {
         Variable Vn = get_ref(s1).deref();
@@ -709,7 +739,7 @@ public class Wam {
         Ai.tag = REF;
         Ai.reference = Vn;
         programCounter++;
-    } // end of WAM.put_variable(String, String)
+    }
 
     private void try_me_else(int whom) {
         int i;
@@ -720,41 +750,44 @@ public class Wam {
         cp.nextClause = whom;
         cp.lastEnviron = env;
         programCounter++;
-    } // end of WAM.try_me_else(int)
+    }
 
     private void proceed() {
         programCounter = continuationPointer;
-    } // end of WAM.proceed()
+    }
 
     private void is_bound(Variable v) {
         v = v.deref();
-        if (v.tag == REF)
+        if (v.tag == REF) {
             backtrack();
-        else
+        } else {
             programCounter++;
-    } // end of WAM.is_bound(String)
+        }
+    }
 
     private void allocate() {
         Environment environment = new Environment(continuationPointer, env);
         env = environment;
         programCounter++;
-    } // end of WAM.allocate()
+    }
 
     private void deallocate() {
         continuationPointer = env.returnAddress;
         env = env.lastEnviron;
         programCounter++;
-    } // end of WAM.deallocate()
+    }
 
     private void call(int target) {
         if (target >= 0) {
             continuationPointer = programCounter + 1;
             cutPoint = choicePoint;
             programCounter = target;
-        } else  // linenumbers < 0 indicate internal predicates, e.g. writeln
-            if (!internalPredicate(target))
+        } else {  // linenumbers < 0 indicate internal predicates, e.g. writeln
+            if (!internalPredicate(target)) {
                 backtrack();
-    } // end of WAM.call(int)
+            }
+        }
+    }
 
     // not_call performs a negated call by invoking a new WAM process
     // if the new process' execution fails, not_call is successful (backtrack, otherwise)
@@ -770,15 +803,17 @@ public class Wam {
         // add a halt statement, making wam2 return "true" upon success. this is necessary!
         p.addStatement(new Statement("", "halt", ""));
         wam2.arguments.clear();  // now, duplicate the argument vector
-        for (int i = 0; i < arguments.size(); i++)
+        for (int i = 0; i < arguments.size(); i++) {
             wam2.arguments.addElement(new Variable((Variable) arguments.elementAt(i)));
+        }
         // we don't need any benchmarking information from the child WAM
         wam2.debugOn = debugOn;
         wam2.benchmarkOn = 0;
         wam2.run();
         boolean wam2failed = wam2.failed;
-        while (wam2.choicePoint != null)
+        while (wam2.choicePoint != null) {
             wam2.backtrack();
+        }
         wam2.backtrack();
         p.deleteFromLine(p.getStatementCount() - 1);  // remove the earlier added "halt" statement from p
         opCount += wam2.opCount;
@@ -788,13 +823,13 @@ public class Wam {
             programCounter++;
         } else // if it succeeded, consider this bad (since we are inside a not statement)
             backtrack();
-    } // end of WAM.not_call(int)
+    }
 
     private void cut(String Vn) {
         Variable v = get_ref(Vn);
         choicePoint = v.cutLevel;
         programCounter++;
-    } // end of WAM.cut(String)
+    }
 
     private void get_level(String Vn) {
         Variable v = get_ref(Vn);
@@ -807,8 +842,9 @@ public class Wam {
     // called upon an unsuccessful binding operation or a call with non-existent target
     private void backtrack() {
         int i;
-        if (debugOn > 0)
+        if (debugOn > 0) {
             writeLn("-> backtrack");
+        }
         backtrackCount++;
         failed = true;
         if (choicePoint != null) {
@@ -816,18 +852,20 @@ public class Wam {
             programCounter = choicePoint.nextClause;
             env = choicePoint.lastEnviron;
             int tp = choicePoint.trailPointer;
-            for (i = trail.getLength() - 1; i >= tp; i--)
+            for (i = trail.getLength() - 1; i >= tp; i--) {
                 trail.undo(i);
+            }
             trail.setLength(tp);
             arguments = choicePoint.arguments;
             cutPoint = choicePoint.cutPoint;
             choicePoint = choicePoint.lastCP;
         } else {
-            for (i = trail.getLength() - 1; i >= 0; i--)
+            for (i = trail.getLength() - 1; i >= 0; i--) {
                 trail.undo(i);
+            }
             programCounter = -1;
         }
-    } // end of WAM.backtrack()
+    }
 
     /******************** BEGIN INTERNAL PREDICATES ********************/
 
@@ -835,13 +873,13 @@ public class Wam {
     private boolean internalPredicate(int index) {
         boolean result = true;
         Variable v = (Variable) arguments.elementAt(0);
-        if (index == callIsAtom)
+        if (index == callIsAtom) {
             isAtom(v.deref());
-        else if (index == callIsInteger)
+        } else if (index == callIsInteger) {
             isInteger(v.toString());
-        else if (index == callIsBound)
+        } else if (index == callIsBound) {
             is_bound(v);
-        else if (index == callWrite) {
+        } else if (index == callWrite) {
             write(v.toString());
             programCounter++;
         } else if (index == callWriteLn) {
@@ -866,8 +904,9 @@ public class Wam {
             int target = -1;
             if (v2.tag == CON) {
                 intg = (Integer) p.labels.get(v2.value);
-                if (intg != null)
+                if (intg != null) {
                     target = intg.intValue();
+                }
             } else if (v2.tag == STR) {
                 intg = (Integer) p.labels.get(v2.head.value);
                 if (intg != null) {
@@ -882,10 +921,11 @@ public class Wam {
                     }
                 }
             }
-            if (target >= 0)
+            if (target >= 0) {
                 call(target);
-            else
+            } else {
                 backtrack();
+            }
         } else if (index == callLoad)
             load(v.toString());
         else if (index == callConsult)
@@ -897,24 +937,25 @@ public class Wam {
         } else
             result = false;
         return result;
-    } // end of WAM.internalPredicate(String)
+    }
 
     private void load(String fileName) {
         Program prog = CodeReader.readProgram(fileName);
-        if (prog == null)
+        if (prog == null) {
             if (fileName.indexOf(".wam") <= 0) {  // if compilation didn't work, try with different file extension
                 writeLn("File \"" + fileName + "\" could not be opened.");
                 writeLn("Trying \"" + fileName + ".wam\" instead.");
                 prog = CodeReader.readProgram(fileName + ".wam");
             }
-        if (prog == null)
+        }
+        if (prog == null) {
             backtrack();
-        else {
+        } else {
             p.addProgram(prog);
             p.updateLabels();
             programCounter++;
         }
-    } // end of WAM.load(String)
+    }
 
     private void isAtom(Variable v) {
         v = v.deref();
@@ -922,7 +963,7 @@ public class Wam {
             programCounter++;
         else
             backtrack();
-    } // end of WAM.isAtom(Variable)
+    }
 
     // checks if stuff contains an integer number
     private void isInteger(String stuff) {
@@ -932,7 +973,7 @@ public class Wam {
         } catch (Exception e) {
             backtrack();
         }
-    } // end of WAM.isInteger(String)
+    }
 
     // assert asserts a new clause to the current program
     private void assert_(String label, String clause) {
@@ -946,7 +987,7 @@ public class Wam {
             trail.addEntry(v);
         } else
             backtrack();
-    } // end of WAM.assert_(String, String)
+    }
 
     private void removeProgramLines(int fromLine) {
         int size = p.getStatementCount();
@@ -988,7 +1029,7 @@ public class Wam {
             programCounter++;
         else
             backtrack();
-    } // end of WAM.retractall(String)
+    }
 
     // consult compiles a prolog program and loads the resulting code into memory
     private void consult(String fileName) {
@@ -1009,7 +1050,7 @@ public class Wam {
             p.updateLabels();  // and don't forget to update the jump labels
             programCounter++;
         }
-    } // end of WAM.consult(String)
+    }
 
     /******************** END INTERNAL PREDICATES ********************/
 
@@ -1035,7 +1076,7 @@ public class Wam {
         writeLn("memory by typing \"load(filename).\".");
         writeLn("");
         writeLn("" + p.getStatementCount() + " lines of code in memory.");
-    } // end of WAM.showHelp()
+    }
 
     // run starts the actual execution of the program in memory
     public void run() {
@@ -1094,7 +1135,7 @@ public class Wam {
                 backtrack();
             }
         }
-        // end of while (programCounter >= 0)
+
         if (failed) {
             while (choicePoint != null) backtrack();
             backtrack();
@@ -1103,7 +1144,7 @@ public class Wam {
             writeLn("# operations: " + opCount);
             writeLn("# backtracks: " + backtrackCount);
         }
-    } // end of WAM.run()
+    }
 
     // runQuery compiles a query given by s into a WAM program, adds it to the program in memory
     // and jumps to the label "query$", starting the execution
@@ -1172,7 +1213,7 @@ public class Wam {
             } else  // if no new value has been specified, display the current
                 getInternalVariable(s);
             return true;
-        } // end of "set ..." command
+        }
 
         /*************** END SPECIAL COMMANDS ***************/
 
@@ -1245,7 +1286,7 @@ public class Wam {
         } while ((answer.compareTo("y") == 0) || (answer.compareTo("yes") == 0));
         reset();
         return true;
-    } // end of WAM.runQuery(String)
+    }
 
     // the WAM's main loop
     public static void main(String[] args) {
@@ -1263,7 +1304,7 @@ public class Wam {
         } while ((s != null) && (wam.runQuery(s)));
         wam.writeLn("Goodbye!");
         wam.writeLn("");
-    } // end of WAM.main(String[])
+    }
 
-} // end of class WAM
+} 
 

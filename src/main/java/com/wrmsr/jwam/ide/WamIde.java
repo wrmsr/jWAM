@@ -1,4 +1,4 @@
-package com.wrmsr.jwam;
+package com.wrmsr.jwam.ide;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,9 +6,6 @@ import java.awt.*;
 public class WamIde {
     boolean packFrame = false;
 
-    /**
-     * Construct the application
-     */
     public WamIde() {
         Frame1 frame = new Frame1();
         //Validate frames that have preset sizes
@@ -31,9 +28,6 @@ public class WamIde {
         frame.setVisible(true);
     }
 
-    /**
-     * Main method
-     */
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
