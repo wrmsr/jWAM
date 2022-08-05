@@ -8,7 +8,7 @@
  * KeyValue, which is used for implementing mappings from Prolog variable names
  * ("X", "A13", "Name", ...) to WAM variable names ("Y1", "Y2", ...).
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.util.Vector;
 

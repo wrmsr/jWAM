@@ -7,7 +7,7 @@
  * the Compiler class. QueryCompiler compiles user-written queries into WAM
  * code for execution.
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.util.Vector;
 

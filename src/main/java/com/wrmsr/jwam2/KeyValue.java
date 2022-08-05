@@ -1,4 +1,4 @@
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 //class KeyValue helps implementing mappings "A=B" (key/value pairs)
 public class KeyValue {

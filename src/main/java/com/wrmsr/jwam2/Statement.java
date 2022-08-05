@@ -6,7 +6,7 @@
  * Statement.java contains the class Statement, representing a single line of
  * WAM code, e.g. "true: proceed".
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.util.Vector;
 

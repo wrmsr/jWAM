@@ -6,7 +6,7 @@
  * Variable.java contains the class Variable, implementing the internal
  * management of variables as references or bound to lists or single constants.
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 public class Variable {
     public final int REF = 0;  // variable contains reference, i.e. has been unified/bound

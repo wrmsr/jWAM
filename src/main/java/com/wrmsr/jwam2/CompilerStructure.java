@@ -7,7 +7,7 @@
  * for transforming the input vector (Prolog program) to the output Program
  * (WAM code) via a certain program structure graph.
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 // Each instance of CompilerStructure represents a node in the program graph
 // of the original Prolog program. Every node is of a certain type (see constants

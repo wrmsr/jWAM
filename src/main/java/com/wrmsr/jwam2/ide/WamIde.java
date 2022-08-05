@@ -1,4 +1,4 @@
-package com.wrmsr.jwam.ide;
+package com.wrmsr.jwam2.ide;
 
 import javax.swing.*;
 import java.awt.*;

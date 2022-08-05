@@ -1,7 +1,7 @@
-package com.wrmsr.jwam.ide;
+package com.wrmsr.jwam2.ide;
 
-import com.wrmsr.jwam.Program;
-import com.wrmsr.jwam.Wam;
+import com.wrmsr.jwam2.Program;
+import com.wrmsr.jwam2.Wam;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

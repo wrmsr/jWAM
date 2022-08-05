@@ -1,0 +1,93 @@
+
+import java.math.*;
+
+parser code {:
+        Lexer lexer;
+
+        public Parser(Lexer l) {
+                this();
+                lexer = l;
+	}
+
+	public void syntax_error(java_cup.runtime.Symbol current) {} 
+
+	public void unrecovered_syntax_error(java_cup.runtime.Symbol current) throws Exception {
+		report_fatal_error("Erro na linha " + current.left + ": Erro de sintaxe", current);
+	}
+:};
+
+
+
+scan with {: return lexer.nextToken(); :};
+
+terminal NOT, LP, RP, RLP, RRP, VIR, DOT, ATTRIB, CUT;
+terminal String INT_LIT, PREDICATE, CONSTANT, VARIAVEL;
+non terminal Program, Clause, Head, Body, Condition, List, Structure;
+
+start with Program;
+
+Program ::= 
+	  Clause
+	| Clause Program
+	;
+
+Clause ::=
+	  Head DOT
+	| Head ATTRIB Body DOT
+	;
+
+Head ::=
+	  PREDICATE
+	| PREDICATE LP List RP
+	;
+
+Body ::=
+	  Condition
+	| Condition VIR Body
+	;
+
+Condition
+	  PREDICATE
+	| PREDICATE LP List RP
+	| NOT PREDICATE
+	| NOT PREDICATE LP List RP
+	| VARIAVEL IS Expression
+	| Element COMPARATOR Element
+	| CUT
+	;
+
+List ::= 
+	  Element
+	| VARIAVEL
+	| Constant
+	| Structure
+	| RLP List RRP
+	| RLP List PIPE VARIAVEL RRP
+	;
+
+Structure ::=
+	  PREDICATE LP List RP
+	| VARIAVEL LP List RP
+	;
+
+expressao ::=
+	  LAMBDA VARIAVEL:i DOT expressao:j
+		{:
+			RESULT = new Lambda(i, (Lambda)j);
+		:}
+
+	| LET VARIAVEL:i EQ expressao:l IN expressao:r
+		{: 
+			RESULT = new Lambda(i, (Lambda)l, (Lambda)r);
+		 :}
+
+	| IF expressao:c THEN expressao:a ELSE expressao:b
+		{: 
+			RESULT = new Lambda((Lambda)c, (Lambda)a, (Lambda)b);
+		 :}
+
+	| termo:l
+		{:
+			RESULT = l;
+		:}
+	;

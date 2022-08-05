@@ -1,4 +1,4 @@
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import org.junit.Test;
 

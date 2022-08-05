@@ -7,7 +7,7 @@
  * a Prolog program (given as a string or by its filename) into an equivalent
  * WAM program.
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -6,7 +6,7 @@
  * CodeReader.java contains the CodeReader class that transforms a WAM code
  * input file into a Program structure (cf. Program.java / Statement.java)
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

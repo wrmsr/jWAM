@@ -6,7 +6,7 @@
  * Program.java contains the WAM program management class Program. A Program
  * consists of an array of Statements (cf. Statement.java).
  ******************************************************************************/
-package com.wrmsr.jwam;
+package com.wrmsr.jwam2;
 
 import java.util.TreeMap;
 import java.util.Vector;
